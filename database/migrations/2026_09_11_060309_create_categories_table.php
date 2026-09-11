@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string("Cambodia_Food");
+            $table->string("Rice");
+            $table->string("Drink");
+            $table->string("Desserts");
             $table->timestamps();
         });
     }
@@ -22,6 +26,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('categories', function(Blueprint $table){
+            $table->dropColumn('Cambodia_Food');
+            $table->dropColumn('Rice');
+            $table->dropColumn('Drink');
+            $table->dropColumn('Desserts');
+        });
     }
 };
