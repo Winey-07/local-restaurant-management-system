@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string("Cambodia_Food");
-            $table->string("Rice");
-            $table->string("Drink");
-            $table->string("Desserts");
+            $table->string("ពេលព្រឹក");
+            $table->string("ពេលថ្ងៃ");
+            $table->string("ពេលល្ងាច");
+            $table->string("ភេសជ្ជៈ");
+            $table->string('ផ្សេងៗ');
             $table->timestamps();
         });
     }
@@ -27,10 +28,11 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('categories', function(Blueprint $table){
-            $table->dropColumn('Cambodia_Food');
-            $table->dropColumn('Rice');
-            $table->dropColumn('Drink');
-            $table->dropColumn('Desserts');
+            $table->dropColumn('ពេលព្រឹក');
+            $table->dropColumn('ពេលថ្ងៃ');
+            $table->dropColumn('ពេលល្ងាច');
+            $table->dropColumn('ភេសជ្ជៈ');
+            $table->dropColumn('ផ្សេងៗ');
         });
     }
 };

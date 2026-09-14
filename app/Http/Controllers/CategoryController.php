@@ -24,10 +24,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'Cambodia_Food' => 'required|string|max:255',
-            'Rice'          => 'nullable|string|max:255',
-            'Noodle'        => 'nullable|string|max:255',
-            'Drink'         => 'nullable|string|max:255'
+            'ពេលព្រឹក' => 'nullable|string|max:255',
+            'ពេលថ្ងៃ'          => 'nullable|string|max:255',
+            'ពេលល្ងាច'        => 'nullable|string|max:255',
+            'ភេសជ្ជៈ'         => 'nullable|string|max:255',
+            'ផ្សេងៗ'      => 'nullable|string|max:255'
         ]);
 
         $category = Category::create($validate);
@@ -57,11 +58,11 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $validate = $request->validate([
-            'Cambodia_Food' => 'nullable|string|max:255',
-            'Rice'          => 'nullable|string|max:255',
-            'Noodle'        => 'nullable|string|max:255',
-            'Drink'         => 'nullable|string|max:255',
-            'Desserts'      => 'nullable|string|max:255'
+            'ពេលព្រឹក' => 'nullable|string|max:255',
+            'ពេលថ្ងៃ'          => 'nullable|string|max:255',
+            'ពេលល្ងាច'        => 'nullable|string|max:255',
+            'ភេសជ្ជៈ'         => 'nullable|string|max:255',
+            'ផ្សេងៗ'      => 'nullable|string|max:255'
         ]);
 
         $category = Category::findOrFail($id);
