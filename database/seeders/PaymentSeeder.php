@@ -32,23 +32,23 @@ class PaymentSeeder extends Seeder
                 'order_id' => $secondOrder->id,
                 'payment_method' => 'KHQR',
                 'amount' => $secondOrder->total_amount,
-                'status' => 'Completed',
+                'payment_status' => 'Completed',
                 'transaction_id' => 'TXN-KHQR-' . strtoupper(uniqid()),
                 'paid_at' => now(),
             ];
         }
 
         // Refunded Order (#3 - $15.00)
-        if ($thirdOrder) {
-            $payments[] = [
-                'order_id' => $thirdOrder->id,
-                'payment_method' => 'Cash',
-                'amount' => $thirdOrder->total_amount,
-                'status' => 'Refunded',
-                'transaction_id' => 'TXN-CASH-' . strtoupper(uniqid()),
-                'paid_at' => now()->subHours(2),
-            ];
-        }
+        // if ($thirdOrder) {
+        //     $payments[] = [
+        //         'order_id' => $thirdOrder->id,
+        //         'payment_method' => 'Cash',
+        //         'amount' => $thirdOrder->total_amount,
+        //         'status' => 'Refunded',
+        //         'transaction_id' => 'TXN-CASH-' . strtoupper(uniqid()),
+        //         'paid_at' => now()->subHours(2),
+        //     ];
+        // }
 
         foreach ($payments as $payment) {
             Payment::updateOrCreate(

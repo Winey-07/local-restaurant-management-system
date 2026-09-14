@@ -13,13 +13,13 @@ return new class extends Migration
 {
     Schema::create('orders', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        $table->foreignId('user_id')->constrained('user_login')->onDelete('cascade');
         $table->foreignId('table_id')->constrained('restaurant_tables')->onDelete('cascade');
         $table->decimal('subtotal', 10, 2)->default(0.00);
         $table->decimal('total_discount', 10, 2)->default(0.00);
         $table->decimal('total_amount', 10, 2)->default(0.00);
         $table->enum('status', ['Pending', 'Preparing', 'Ready', 'Completed', 'Cancelled'])->default('Pending');
-        $table->enum('payment_status', ['Unpaid', 'Paid'])->default('Unpaid');
+        $table->enum('payment_status', ['Unpaid', 'Paid', 'Pending'])->default('Unpaid');
         $table->timestamps();
     });
 }  

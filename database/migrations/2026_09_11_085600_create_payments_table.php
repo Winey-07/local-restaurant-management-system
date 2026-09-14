@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('payment_method', ['Cash', 'ABA', 'ACLEDA', 'KHQR'])->default('Cash');
             $table->enum('payment_status', ['Pending', 'Completed', 'Failed'])->default('Completed');
             $table->timestamp('paid_at')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->timestamps();
         });
     }
