@@ -41,7 +41,7 @@ class OrderSeeder extends Seeder
                 'table_id'       => 3,
                 'status'         => 'Cancelled',
                 'total_amount'   => 15.00,
-                'payment_status' => 'Refunded',
+                'payment_status' => 'Unpaid',
             ],
         ];
 

@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('user_login', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('position');
+          
             $table->string('password');
             
             //role system : admin, staff
             $table->enum('role', ['admin', 'staff'])->default('staff');
             $table->rememberToken();
             $table->timestamps();
-        });
+        });`
     }
 
     /**

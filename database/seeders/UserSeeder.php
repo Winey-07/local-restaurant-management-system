@@ -18,13 +18,13 @@ class UserSeeder extends Seeder
             [
                 'id' => '1',
                 'name'=> 'reaksa',
-                'position'=>'admin',
+                'role'=>'admin',
                 'password'=>'12345678'
             ],
             [
                'id' => '2',
                 'name'=> 'reaksa',
-                'position'=>'staff',
+                'role'=>'staff',
                 'password'=>'123456789' 
             ]
         ];
