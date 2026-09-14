@@ -12,6 +12,6 @@ class RestaurantTable extends Model
         'status'
     ];
     public function orders(){
-        return $this->BelongsTo(Order::class);
+        return $this->hasMany(Order::class);
     }
 }
