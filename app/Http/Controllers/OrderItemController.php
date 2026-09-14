@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\OrderItem;
 
 class OrderItemController extends Controller
 {
@@ -11,7 +12,8 @@ class OrderItemController extends Controller
      */
     public function index()
     {
-        //
+        $orderItems = OrderItem::all();
+        return response()->json($orderItems);
     }
 
     /**
@@ -19,7 +21,9 @@ class OrderItemController extends Controller
      */
     public function create()
     {
-        //
+        return response()->json([
+            'message'=>'Create a new order item'
+        ]);
     }
 
     /**
@@ -27,7 +31,19 @@ class OrderItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'order_id'=>'required|exists:orders,id',
+            'menu_item_id'=>'required|exists:menu_items,id',
+            'quantity'=>'required|interger|min:1',
+            'price'=>'required|numeric|min:0',
+            'discount'=>'nullable|numeric|min:0',
+            'subtotal'=>'required|numeric|min:0'
+        ]);
+
+        return response()->json([
+            'message'=>'Order item created successfully',
+            'orderItem'=> OrderItem::create($validated)
+        ], 201);
     }
 
     /**
