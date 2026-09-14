@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('restaurant_tables', function (Blueprint $table) {
-            $table->id();
-            $table->integer('table_number')->unique();
-            $table->integer('capacity');
-            $table->enum('status', ['available', 'occupied'])->default('available');
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('restaurant_tables')) {
+            Schema::create('restaurant_tables', function (Blueprint $table) {
+                $table->id();
+                $table->integer('table_number')->unique();
+                $table->integer('capacity');
+                $table->enum('status', ['available', 'occupied', 'reserved'])->default('available');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

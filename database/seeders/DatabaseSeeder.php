@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            CategorySeeder::class,
             MenuItemSeeder::class,
-            RestuarantTableSeeder::class,
+            RestaurantTableSeeder::class,
         ]);
         // User::factory(10)->create();
 
