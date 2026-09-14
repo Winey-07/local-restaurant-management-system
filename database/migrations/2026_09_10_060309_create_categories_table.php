@@ -11,14 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string("ពេលព្រឹក");
-            $table->string("ពេលថ្ងៃ");
-            $table->string("ពេលល្ងាច");
-            $table->string("ភេសជ្ជៈ");
-            $table->string('ផ្សេងៗ');
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            if (Schema::hasColumn('categories', 'Cambodia_Food')) {
+                $table->dropColumn('Cambodia_Food');
+            }
+            if (Schema::hasColumn('categories', 'Rice')) {
+                $table->dropColumn('Rice');
+            }
+            if (Schema::hasColumn('categories', 'Drink')) {
+                $table->dropColumn('Drink');
+            }
+            if (Schema::hasColumn('categories', 'Desserts')) {
+                $table->dropColumn('Desserts');
+            }
+            if (! Schema::hasColumn('categories', 'name')) {
+                $table->string('name')->after('id');
+            }
+            if (! Schema::hasColumn('categories', 'description')) {
+                $table->text('description')->nullable()->after('name');
+            }
         });
     }
 
@@ -27,12 +38,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function(Blueprint $table){
-            $table->dropColumn('ពេលព្រឹក');
-            $table->dropColumn('ពេលថ្ងៃ');
-            $table->dropColumn('ពេលល្ងាច');
-            $table->dropColumn('ភេសជ្ជៈ');
-            $table->dropColumn('ផ្សេងៗ');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn(['name', 'description']);
         });
     }
 };
