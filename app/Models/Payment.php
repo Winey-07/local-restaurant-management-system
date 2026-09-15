@@ -23,7 +23,7 @@ class Payment extends Model
      * Get the order associated with this payment.
      */
     public function order(){
-        return $this->belongsTo(Orders::class);
+        return $this->belongsTo(Order::class);
     }
 
 }
