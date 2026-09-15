@@ -3,14 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MenuItem;
+use Exception;
 
 class MenuItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Resquest $request)
     {
+        // add search in MenuItems
+        $search = $request->input('search');
+
+        $menuItems = MenuItem::when($search, function($query, $search){
+            return $query->where('name', 'LIKE', "%{$search}%");
+        })->get();
+        return $menuItems;
+
         $menuItems = MenuItem::with('categories')->get();
         return response()->json($menuItems);
     }
@@ -41,9 +51,9 @@ class MenuItemController extends Controller
         $menuItem = MenuItem($validated);
 
         return response()->json([
-            'message' => 'MenuItem update successfully',
+            'message' => 'MenuItem store successfully',
             'menuItem' => $menuItem
-        ]);
+        ],201);
     }
 
     /**
@@ -51,7 +61,8 @@ class MenuItemController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $menuItems = MenuItem::with('order_items')->findOrFail($id);
+        return $menuItems;
     }
 
     /**
@@ -67,7 +78,32 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $menuItems = MenuItem::findOrFound($id);
+
+            $validated = $request->validate([
+            'category_id' => 'required|exists:category,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'price' => 'required|numeric',
+            'image' => 'nullable',
+            'status' => 'required|in:available,unavailable',
+
+        ]);
+        $menuItem = MenuItem($validated);
+
+        return response()->json([
+            'message' => 'MenuItem update successfully',
+            'menuItem' => $menuItem
+        ],201);
+
+        } catch (Exception $e){
+            return response()->json([
+                'error' => 'Failed to update Menu',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+        
     }
 
     /**
@@ -75,6 +111,9 @@ class MenuItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $menuItem -> MenuItem::findOrFail($id)->delete();
+        return "Menu is deleted";
+        
+    
     }
 }
