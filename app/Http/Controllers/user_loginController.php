@@ -33,6 +33,8 @@ class user_loginController extends Controller
             'password'=> 'require|string|min:8',
             'role' => 'require|in:admin,staff',
         ]);
+        $user_login = User::create($validate);
+        return $user_login;
     }
 
     /**
