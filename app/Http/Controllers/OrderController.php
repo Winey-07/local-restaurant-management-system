@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Orders;
+use App\Models\Order;
 
 
 class OrderController extends Controller
@@ -13,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Orders::with(['user', 'table', 'orderItems', 'payment'])->get();
+        $orders = Order::with(['user', 'table', 'orderItems', 'payment'])->get();
         return response()->json($orders);
     }
 
@@ -42,7 +42,7 @@ class OrderController extends Controller
             'payment_status' => 'required|in:Unpaid,Paid',
         ]);
 
-        $order = Orders::create($validated);
+        $order = Order::create($validated);
 
 
         return response()->json([
@@ -56,7 +56,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        $order = Orders::find($id);
+        $order = Order::find($id);
         if (!$order) {
             return response()->json(['message' => 'Order not found'], 404);
         }
@@ -69,7 +69,7 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        $order = Orders::find($id);
+        $order = Order::find($id);
         if (!$order) {
             return response()->json([
                 'message' => 'Order not found',
@@ -83,7 +83,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $order = Orders::find($id);
+        $order = Order::find($id);
         if (!$order) {
             return response()->json([
                 'message' => 'Order not found',
@@ -113,7 +113,7 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        $order = Orders::find($id);
+        $order = Order::find($id);
         if (!$order) {
             return response()->json([
                 'message' => 'Order Not Found'
