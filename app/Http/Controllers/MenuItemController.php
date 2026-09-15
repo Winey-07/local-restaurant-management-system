@@ -9,8 +9,12 @@ class MenuItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Resquest $request)
     {
+        $search = $ request->input('search');
+
+        $menuItems = MenuItem::when($search, fuction($query, $search))
+
         $menuItems = MenuItem::with('categories')->get();
         return response()->json($menuItems);
     }
