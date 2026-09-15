@@ -43,7 +43,7 @@ class MenuItemController extends Controller
         return response()->json([
             'message' => 'MenuItem update successfully',
             'menuItem' => $menuItem
-        ]);
+        ],201);
     }
 
     /**
@@ -51,7 +51,7 @@ class MenuItemController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // $menuitems = MenuItem::find($id);
     }
 
     /**
