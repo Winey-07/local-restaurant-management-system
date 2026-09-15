@@ -11,7 +11,8 @@ class MenuItemController extends Controller
      */
     public function index()
     {
-        //
+        $menuItems = MenuItem::with('categories')->get();
+        return response()->json($menuItems);
     }
 
     /**
@@ -19,7 +20,8 @@ class MenuItemController extends Controller
      */
     public function create()
     {
-        //
+        $category = Category::all();
+        return response()->json;
     }
 
     /**
@@ -27,7 +29,21 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'category_id' => 'required|exists:category,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'price' => 'required|numeric',
+            'image' => 'nullable',
+            'status' => 'required|in:available,unavailable',
+
+        ]);
+        $menuItem = MenuItem($validated);
+
+        return response()->json([
+            'message' => 'MenuItem update successfully',
+            'menuItem' => $menuItem
+        ]);
     }
 
     /**
