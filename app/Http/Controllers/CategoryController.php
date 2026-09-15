@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -17,19 +18,14 @@ class CategoryController extends Controller
     }
 
     /**
-     
-
-    
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'ពេលព្រឹក' => 'nullable|string|max:255',
-            'ពេលថ្ងៃ'          => 'nullable|string|max:255',
-            'ពេលល្ងាច'        => 'nullable|string|max:255',
-            'ភេសជ្ជៈ'         => 'nullable|string|max:255',
-            'ផ្សេងៗ'      => 'nullable|string|max:255'
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            
         ]);
 
         $category = Category::create($validate);
@@ -42,33 +38,36 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = Category::with('Menu_items')->findOrFail($id);
+        return $category;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+  
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        $validate = $request->validate([
-            'ពេលព្រឹក' => 'nullable|string|max:255',
-            'ពេលថ្ងៃ'          => 'nullable|string|max:255',
-            'ពេលល្ងាច'        => 'nullable|string|max:255',
-            'ភេសជ្ជៈ'         => 'nullable|string|max:255',
-            'ផ្សេងៗ'      => 'nullable|string|max:255'
-        ]);
+        try{
+            $category = Category::findOrFound($id);
 
-        $category = Category::findOrFail($id);
-        $category ->update($validate);
-        return $category;
+            $validate = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string|max:500',
+                
+            ]);
+
+            $category = Category::findOrFail($id);
+            $category ->update($validate);
+            return $category;
+        }
+        catch (Exception $e){
+            return response()->json([
+                'error' => 'Failed to update Category',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -77,5 +76,6 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::finfOrFail($id)->delete();
+        return "Category is deleted";
     }
 }
