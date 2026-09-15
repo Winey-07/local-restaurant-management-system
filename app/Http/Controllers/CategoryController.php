@@ -25,11 +25,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'ពេលព្រឹក' => 'nullable|string|max:255',
+            'ពេលព្រឹក'         => 'nullable|string|max:255',
             'ពេលថ្ងៃ'          => 'nullable|string|max:255',
-            'ពេលល្ងាច'        => 'nullable|string|max:255',
-            'ភេសជ្ជៈ'         => 'nullable|string|max:255',
-            'ផ្សេងៗ'      => 'nullable|string|max:255'
+            'ពេលល្ងាច'         => 'nullable|string|max:255',
+            'ភេសជ្ជៈ'          => 'nullable|string|max:255',
+            'ផ្សេងៗ'           => 'nullable|string|max:255'
         ]);
 
         $category = Category::create($validate);
