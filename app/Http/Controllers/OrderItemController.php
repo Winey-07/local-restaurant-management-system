@@ -51,7 +51,13 @@ class OrderItemController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $orderItem = OrderItem::find($id);
+        if(!$orderItem){
+            return response()->json([
+                'message'=>'Order item not found'
+            ], 404);
+        }
+        return response()->json($orderItem);
     }
 
     /**
@@ -67,7 +73,27 @@ class OrderItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'order_id'=>'required|exists:orders,id',
+            'menu_item_id'=>'required|exists:menu_items,id',
+            'quantity'=>'required|interger|min:1',
+            'price'=>'required|numeric|min:0',
+            'discount'=>'nullable|numeric|min:0',
+            'subtotal'=>'required|numeric|min:0'
+        ]);
+
+        $orderItem = OrderItem::find($id);
+        if(!$orderItem){
+            return response()->json([
+                'message'=>"Order item not found",
+                'data'=>$orderItem
+            ], 404);
+        }
+        $orderItem->update($validated);
+        return response()->json([
+            'message'=>'Order item updated successfully',
+            'data'=>$orderItem
+        ]);
     }
 
     /**
@@ -75,6 +101,16 @@ class OrderItemController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $orderItem = OrderItem::find($id);
+        if(!$orderItem){
+            return response()->json([
+                'message'=>'Order item not found'
+            ], 404);
+        }
+        $orderItem->delete();
+        return response()->json([
+            'message'=>'Order item deleted successfully'
+        ]);
+        
     }
 }

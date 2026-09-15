@@ -9,3 +9,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+
+require __DIR__.'/apis/order.php';
+require __DIR__.'/apis/payment.php';
+require __DIR__.'/apis/order_item.php';
+require __DIR__.'/apis/menu_item.php';
+require __DIR__.'/apis/user.php';
+require __DIR__.'/apis/restaurant_table.php';
+require __DIR__.'/apis/category.php';
