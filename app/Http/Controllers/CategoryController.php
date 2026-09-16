@@ -15,6 +15,13 @@ class CategoryController extends Controller
     {
         $category = Category::all();
         return $category;
+
+        $search = $request->input('search');
+
+        $category = Category::with('memuItem')
+
+        
+        
     }
 
     /**
@@ -37,7 +44,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         // Ensure your relationship name matches your model (e.g., menuItems or Menu_items)
-        $category = Category::with('MenuItem')->findOrFail($id);
+        $category = Category::with('menuItems')->findOrFail($id);
         return $category;
     }
 

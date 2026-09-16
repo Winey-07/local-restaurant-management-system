@@ -16,14 +16,29 @@ class MenuItemController extends Controller
     {
         $search = $request->input('search');
 
+        //dynamic
+        $sortBy = $request->input('sortBy');
+        $sortDir = $request->input('sortDir');
+
+
+        // static
+        $sortBy = $request->query('sortBy', 'id');
+        $sortDir = $request->query('sortDir', 'desc');
+
+
+
         // Combine search and relationship loading into a single query chain
         $menuItems = MenuItem::with('Category')
             ->when($search, function($query, $search) {
                 return $query->where('name', 'LIKE', "%{$search}%");
             })
+            // add sort by and sort direction
+            ->orderBy($sortBy, $sortDir)
             ->get();
 
         return response()->json($menuItems);
+
+        
     }
 
     /**
@@ -63,7 +78,7 @@ class MenuItemController extends Controller
      */
     public function show(string $id)
     {
-        $menuItem = MenuItem::with('OrderItem')->findOrFail($id);
+        $menuItem = MenuItem::with('OrderItems')->findOrFail($id);
         return response()->json($menuItem);
     }
 
