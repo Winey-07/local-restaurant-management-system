@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Hash; // Added Hash import for passwords
 
 class user_loginController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function index(Request $request)
     {
-        // 2. Removed the $ from User
-        $user_login = User::all(); 
+        $search = $request->input('search');
+        $user_login = User::when($search, function($query,$search){
+            $query->where('name', 'like',"%{$search}%");
+            })->get(); 
         return $user_login;
     }
 
