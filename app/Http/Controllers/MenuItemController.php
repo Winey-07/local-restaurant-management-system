@@ -37,10 +37,8 @@ class MenuItemController extends Controller
             })
             // add sort by and sort direction
             ->orderBy($sortBy, $sortDir)
-
-            ->paginate($limit);
-            //search
-            // ->get();
+            //search>orderBy($sortBy, $sortDir)
+            ->get();
 
         return response()->json($menuItems);
 

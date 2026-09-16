@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\RestaurantTable;
 use Illuminate\Http\Request;
 
 class TableController extends Controller
@@ -11,7 +11,8 @@ class TableController extends Controller
      */
     public function index()
     {
-        //
+        $table = RestaurantTable::all();
+        return $table;
     }
 
     /**
@@ -27,7 +28,14 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'table_number' => 'required|integer|max:255',
+            'capacity'     => 'nullable|integer|max:255',
+            'status'       => 'nullable|string|max:255',
+        ]);
+
+        $table = RestaurantTable::create($validate);
+        return $table;
     }
 
     /**
@@ -51,7 +59,15 @@ class TableController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'table_number' => 'required|integer|max:255',
+            'capacity'     => 'nullable|integer|max:255',
+            'status'       => 'nullable|string|max:255',
+        ]);
+
+        $table = RestaurantTable::findOrFail($id);
+        $table -> update($validate);
+        return $table;
     }
 
     /**
@@ -59,6 +75,6 @@ class TableController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $table = RestaurantTable::findOrFail($id)->delete();
     }
 }
