@@ -14,8 +14,8 @@ class user_loginController extends Controller
     public function index()
     {
         // 2. Removed the $ from User
-        $users = User::all(); 
-        return $users;
+        $user_login = User::all(); 
+        return $user_login;
     }
 
     /**
@@ -67,7 +67,15 @@ class user_loginController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request-> validate([
+            'name' => 'required|string|max:255',
+            'password'=> 'required|string|min:8',
+            'role' => 'required|in:admin,staff',
+        ]);
+
+        $user_login = User::findOrfail($id);
+        $user_login->update($validate);
+        return $user_login;
     }
 
     /**
@@ -75,6 +83,6 @@ class user_loginController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user_login = User::findOrFail($id)->delete();
     }
 }
