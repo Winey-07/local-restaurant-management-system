@@ -12,9 +12,27 @@ class user_loginController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $user_login = User::when($search, function($query,$search){
+
+        $sortBy = $request->query('sortBy', 'id');
+
+        $sortDir = $request->query('sortDir','asc' );
+
+        // limit data
+        $limit = $request->query('limit',10);
+
+
+        $user_login = User::when($search, function($query ,$search){
             $query->where('name', 'like',"%{$search}%");
-            })->get(); 
+            })
+            
+            //sort data
+            ->orderBy($sortBy, $sortDir)
+            //limit data
+            ->paginate($limit);
+            //for search
+            // ->get(); 
+
+        // $user_login->appends($request->all());
         return $user_login;
     }
 
