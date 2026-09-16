@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User; // 1. Added Model Import
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash; // Added Hash import for passwords
 
 class user_loginController extends Controller
 {
@@ -11,8 +13,9 @@ class user_loginController extends Controller
      */
     public function index()
     {
-        $user = $User::all();
-        return $user;
+        // 2. Removed the $ from User
+        $users = User::all(); 
+        return $users;
     }
 
     /**
@@ -28,12 +31,18 @@ class user_loginController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request -> validate([
-            'name' => 'require|string|max:255',
-            'password'=> 'require|string|min:8',
-            'role' => 'require|in:admin,staff',
+        // 3. Changed 'require' to 'required'
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'password'=> 'required|string|min:8',
+            'role' => 'required|in:admin,staff',
         ]);
-        $user_login = User::create($validate);
+
+        // 4. Hash the password before saving to the database!
+        $validated['password'] = Hash::make($validated['password']);
+
+        $user_login = User::create($validated);
+        
         return $user_login;
     }
 
