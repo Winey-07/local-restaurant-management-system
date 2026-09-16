@@ -16,17 +16,71 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'id' => '1',
-                'name'=> 'reaksa',
-                'role'=>'admin',
-                'password'=>'12345678'
-            ],
-            [
-               'id' => '2',
-                'name'=> 'reaksa',
+               'id' => '6',
+                'name'=> 'jin',
                 'role'=>'staff',
                 'password'=>'123456789' 
-            ]
+            ],
+            [
+               'id' => '7',
+                'name'=> 'ming',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '8',
+                'name'=> 'seav',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '9',
+                'name'=> 'ing',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '10',
+                'name'=> 'ming',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '11',
+                'name'=> 'jing',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '12',
+                'name'=> 'ling',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '13',
+                'name'=> 'lily',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '14',
+                'name'=> 'na',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '15',
+                'name'=> 'sa',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
+            [
+               'id' => '16',
+                'name'=> 'reak',
+                'role'=>'staff',
+                'password'=>'123456789' 
+            ],
         ];
 
         foreach($users as $user){
