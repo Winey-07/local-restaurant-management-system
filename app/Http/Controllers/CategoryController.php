@@ -25,12 +25,10 @@ class CategoryController extends Controller
         $validate = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:500',
-            
         ]);
 
         $category = Category::create($validate);
         return $category;
-        
     }
 
     /**
@@ -38,31 +36,30 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::with('Menu_items')->findOrFail($id);
+        // Ensure your relationship name matches your model (e.g., menuItems or Menu_items)
+        $category = Category::with('MenuItem')->findOrFail($id);
         return $category;
     }
-
-  
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        try{
-            $category = Category::findOrFound($id);
-
+        try {
+            // Validate incoming request data first
             $validate = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string|max:500',
-                
             ]);
 
+            // Find the category or throw a 404, then update
             $category = Category::findOrFail($id);
-            $category ->update($validate);
+            $category->update($validate);
+            
             return $category;
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             return response()->json([
                 'error' => 'Failed to update Category',
                 'message' => $e->getMessage(),
@@ -75,7 +72,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::finfOrFail($id)->delete();
-        return "Category is deleted";
+        // Fixed typo: finfOrFail -> findOrFail
+        $category = Category::findOrFail($id);
+        $category->delete();
+        
+        return response()->json([
+            'message' => 'Category is deleted'
+        ], 200);
     }
 }
