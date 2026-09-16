@@ -10,9 +10,25 @@ class OrderItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index( Request $request)
     {
-        $orderItems = OrderItem::all();
+        $search = $request->input('search');
+
+        //dynamic
+        $sortBy = $request->input('sortBy');
+        $sortDir = $request->input('sortDir');
+
+        // // static
+        // $sortBy = $request->query('sortBy', 'id');
+        // $sortDir = $request->query('sortDir', 'desc');
+
+
+        $orderItems = OrderItem::with('order','menuItem')
+            ->when($search, function($query, $search){
+                return $query->where('name', 'LIKE', "%{$search}%");
+            })
+            ->orderBy($sortBy, $sortDir)
+            ->get();
         return response()->json($orderItems);
     }
 
@@ -57,6 +73,7 @@ class OrderItemController extends Controller
                 'message'=>'Order item not found'
             ], 404);
         }
+        $orderItem->load(['order', 'menuItem']);
         return response()->json($orderItem);
     }
 

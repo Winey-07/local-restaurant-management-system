@@ -11,9 +11,29 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['user', 'table', 'orderItems', 'payment'])->get();
+        $search = $request->input('search');
+
+        //dynamic: you can edit code and change the sortBy and sortDir values but you need to determinte the shortBy as name or id ...
+        $sortBy = $request->input('sortBy'); // e.g., choose the  'name' or 'id' 
+        $sortDir = $request->input('sortDir'); // e.g., sort direction from small to big or sort direction from big to small.
+
+        //Static: you can't edit or change the code because it determine already.
+        $sortBy = $request->query('sortBy', 'id'); // Default sort by 'id'
+        $sortDir = $request->query('sortDir', 'desc'); // descending order
+
+        // Combine search and relationship loading into a single query chain
+        $orders = Order::with(['user', 'table', 'orderItems', 'payment'])
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%");
+            })
+
+            //add sort by and sort directiion
+            ->orderBy($sortBy, $sortDir)
+
+            ->get();
+            
         return response()->json($orders);
     }
 
