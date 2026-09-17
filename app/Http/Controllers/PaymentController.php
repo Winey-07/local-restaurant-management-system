@@ -19,12 +19,15 @@ class PaymentController extends Controller
         $sortBy = $request->input('sortBy');
         $sortDir = $request->input('sortDir');
 
+        $limit = $request->query('limite', 10);
+
         $payments = Payment::with('order')
             ->when($search, function($query, $search){
                 return $query->where('transaction_id', 'LIKE', "%{$search}%");
             })
             ->orderBy($sortBy, $sortDir)
-            ->get();
+            // ->get();
+            ->paginate($limit);
 
         return response()->json($payments);
     }

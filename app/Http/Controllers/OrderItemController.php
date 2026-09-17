@@ -22,13 +22,16 @@ class OrderItemController extends Controller
         // $sortBy = $request->query('sortBy', 'id');
         // $sortDir = $request->query('sortDir', 'desc');
 
+        $limit = $request->query('limit', 10);
+
 
         $orderItems = OrderItem::with('order','menuItem')
             ->when($search, function($query, $search){
                 return $query->where('name', 'LIKE', "%{$search}%");
             })
             ->orderBy($sortBy, $sortDir)
-            ->get();
+            // ->get();
+            ->paginate($limit);
         return response()->json($orderItems);
     }
 
