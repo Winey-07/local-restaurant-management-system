@@ -16,14 +16,17 @@ class MenuItemController extends Controller
     {
         $search = $request->input('search');
 
-        //dynamic
+        //==== dynamic ====
         $sortBy = $request->input('sortBy');
         $sortDir = $request->input('sortDir');
 
 
-        // static
-        $sortBy = $request->query('sortBy', 'id');
-        $sortDir = $request->query('sortDir', 'desc');
+        // ==== static =====
+        // $sortBy = $request->query('sortBy', 'id');
+        // $sortDir = $request->query('sortDir', 'desc');
+
+        // Get limit for pagination (default to 10 if not provided)
+        $limit   = $request->query('limit', 10);
 
 
 

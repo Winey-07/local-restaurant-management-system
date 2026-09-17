@@ -11,9 +11,38 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['user', 'table', 'orderItems', 'payment'])->get();
+        $search = $request->input('search');
+
+        //dynamic: you can edit code and change the sortBy and sortDir values but you need to determinte the shortBy as name or id ...
+        $sortBy = $request->input('sortBy'); // e.g., choose the  'name' or 'id' 
+        $sortDir = $request->input('sortDir'); // e.g., sort direction from small to big or sort direction from big to small.
+
+        // //Static: you can't edit or change the code because it determine already.
+        // $sortBy = $request->query('sortBy', 'id'); // Default sort by 'id'
+        // $sortDir = $request->query('sortDir', 'desc'); // descending order
+
+        // Get limit for pagination (default to 10 if not provided)
+        $limit = $request->query('limit', 10);
+
+        // Combine search and relationship loading into a single query chain
+        $orders = Order::with(['user', 'table', 'orderItems', 'payment'])
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', "%{$search}%");
+            })
+
+            //add sort by and sort directiion
+            ->orderBy($sortBy, $sortDir)
+
+
+            //pagination: when you dertimine your page to show the limite of data which you want to show in your page. 
+            //you can use limit to determine the number of data to show in your page. 
+
+            
+            // ->get(); //when you limit (pagination) you need to use paginate instead of get;
+            ->paginate($limit); // Use paginate for pagination
+            
         return response()->json($orders);
     }
 

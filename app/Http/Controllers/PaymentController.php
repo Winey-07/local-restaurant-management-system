@@ -10,9 +10,24 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(request $request)
     {
-        $payments = Payment::with('order')->get();
+        $search = $request->input('search');
+        
+
+        //dynamic
+        $sortBy = $request->input('sortBy');
+        $sortDir = $request->input('sortDir');
+
+        $limit = $request->query('limite', 10);
+
+        $payments = Payment::with('order')
+            ->when($search, function($query, $search){
+                return $query->where('transaction_id', 'LIKE', "%{$search}%");
+            })
+            ->orderBy($sortBy, $sortDir)
+            // ->get();
+            ->paginate($limit);
 
         return response()->json($payments);
     }
