@@ -18,7 +18,7 @@ class CategoryController extends Controller
 
         $search = $request->input('search');
 
-        $category = Category::with('memuItem')
+        $category = Category::with('memuItem');
 
         
         
