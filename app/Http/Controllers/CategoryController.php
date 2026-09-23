@@ -14,7 +14,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::all();
-        return $category;    
+        return response()->json($categories);    
         
     }
 
@@ -23,13 +23,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+        try{
+            $validate = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
         ]);
 
         $category = Category::create($validate);
-        return $category;
+        return response()->json($category, 201);
+        }
+        catch (Exception $e){
+            return response()->json([
+                'error' => 'Failed to create category',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+        
     }
 
     /**
@@ -37,9 +45,18 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        // Ensure your relationship name matches your model (e.g., menuItems or Menu_items)
+       try{
+         // Ensure your relationship name matches your model (e.g., menuItems or Menu_items)
         $category = Category::with('menuItems')->findOrFail($id);
         return $category;
+       }
+       //ModelNotFoundException is more specfic than expection 
+       // if we insert Exception, it will return 500 not 404
+       catch (ModelNotFoundException $e){
+        return response()->json([
+            'error' => 'Category not found',
+        ],404);
+       }
     }
 
     /**
@@ -50,17 +67,23 @@ class CategoryController extends Controller
         try {
             // Validate incoming request data first
             $validate = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string|max:500',
+                             // categories=table, name=column, $id - mean that to ignore this ID if the name/column is already existed or have the same name
+                'name' => 'required|string|max:255|categories,name,'. $id,
+
             ]);
 
             // Find the category or throw a 404, then update
             $category = Category::findOrFail($id);
             $category->update($validate);
             
-            return $category;
+            return response()->json($category);
         }
-        catch (Exception $e) {
+        catch (ModelNotFoundException $e) {
+            return response()->json([
+                'error' => 'Category not found',
+            ], 404);
+        } 
+        catch (Exception $e){
             return response()->json([
                 'error' => 'Failed to update Category',
                 'message' => $e->getMessage(),
@@ -73,12 +96,19 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        // Fixed typo: finfOrFail -> findOrFail
-        $category = Category::findOrFail($id);
-        $category->delete();
+        try{
+            $category = Category::findOrFail($id);
+            $category->delete();
         
-        return response()->json([
-            'message' => 'Category is deleted'
-        ], 200);
+            return response()->json([
+                'message' => 'Category deleted sucessfully'
+            ], 200);
+        }
+        catch (ModelNotFoundException $e){
+            return response()->json([
+                'error' => 'Category not found',
+            ], 404);
+        }
+        
     }
 }
