@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongTo;
 class MenuItem extends Model
 {
     protected $fillable =[
+        'id',
         'category_id',
         'name',
         'description',
