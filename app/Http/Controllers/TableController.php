@@ -9,10 +9,29 @@ class TableController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $table = RestaurantTable::all();
+        $search = $request->input('search');
+
+        $sortBy = $request->query('sortBy', 'id');
+
+        $sortDir = $request->query('sortDir','asc' );
+
+        // limit data
+        $limit = $request->query('limit',10);
+
+    
+        $table = RestaurantTable::When($search, function($query , $search){
+            $query->where('table_number','like',"% {$search}%");
+        } )
+
+        ->orderBy($sortBy, $sortDir)
+
+        ->paginate($limit);
+
         return $table;
+
+
     }
 
     /**
