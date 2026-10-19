@@ -10,18 +10,18 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'ពេលព្រឹក', 'description' => 'Traditional Khmer dishes for the breakfast', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'ពេលថ្ងៃ', 'description' => 'Traditional Khmer dishes for the lunch', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'ពេលល្ងាច', 'description' => 'Traditional Khmer dishes for the dinner', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'ភេសជ្ជៈ', 'description' => 'Beverages, hot and cold', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'ផ្សេងៗ', 'description' => 'Sweet dishes and treats', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => '1', 'name' => 'ពេលព្រឹក', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => '2', 'name' => 'ពេលថ្ងៃ', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => '3', 'name' => 'ពេលល្ងាច', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => '4', 'name' => 'ភេសជ្ជៈ', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => '5', 'name' => 'ផ្សេងៗ',  'created_at' => now(), 'updated_at' => now()],
            
         ];
 
         foreach ($categories as $category) {
             Category::updateOrCreate(
-                ['name' => $category['name']],
-                ['description' => $category['description']]
+                ['id' => $category['id']],
+                ['name' => $category['name']]
             );
         }
     }
