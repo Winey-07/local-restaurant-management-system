@@ -14,6 +14,10 @@ return [
     | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     |
     */
+    'allowed_origins' => [
+    'http://localhost:5173',
+    'https://notes-web.vercel.app',
+],
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
