@@ -21,7 +21,12 @@ $app = Application::configure(basePath: dirname(__DIR__))
         );
     })->create();
 
-    if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
+    // Keep your existing Application::configure(...)->with... chain.
+$app = Application::configure(basePath: dirname(__DIR__))
+    // ... existing ->withRouting(...), middleware, etc.
+    ->create();
+
+if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
     $path = '/tmp/laravel-storage';
     foreach ([
         'framework/views',
@@ -35,5 +40,5 @@ $app = Application::configure(basePath: dirname(__DIR__))
     $app->useStoragePath($path);
 }
 
-
 return $app;
+
