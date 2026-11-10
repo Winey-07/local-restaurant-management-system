@@ -16,8 +16,8 @@ class OrderController extends Controller
         $search = $request->input('search');
 
         //dynamic: you can edit code and change the sortBy and sortDir values but you need to determinte the shortBy as name or id ...
-        $sortBy = $request->input('sortBy'); // e.g., choose the  'name' or 'id' 
-        $sortDir = $request->input('sortDir'); // e.g., sort direction from small to big or sort direction from big to small.
+        $sortBy = $request->input('sortBy', 'created_at'); // e.g., choose the  'name' or 'id' 
+        $sortDir = $request->input('sortDir', 'desc'); // e.g., sort direction from small to big or sort direction from big to small.
 
         // //Static: you can't edit or change the code because it determine already.
         // $sortBy = $request->query('sortBy', 'id'); // Default sort by 'id'

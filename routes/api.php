@@ -4,6 +4,10 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\R2FileController;
+use App\Http\Controllers\NotificationController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -28,3 +32,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+
+Route::post('/images', [ImageController::class, 'store']);
+Route::delete('/images/{filename}', [ImageController::class, 'destroy']);
+
+
+Route::post('/r2/files', [R2FileController::class, 'store']);
+Route::get('/r2/files/{name}', [R2FileController::class, 'download']);
+
+
+//Notification
+Route::post("/send-mail", [NotificationController::class, 'sendMail']);
